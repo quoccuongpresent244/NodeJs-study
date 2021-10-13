@@ -7,9 +7,14 @@ const port = 3000
 
 app.use(express.static(path.join(__dirname, './public')))
 
+//urlencoded
+app.use(express.urlencoded({
+    extended : true
+}))
+app.use(express.json())
 
 //HTTP logger
-app.use(morgan('combined'))
+//app.use(morgan('combined'))
 
 //Template engine
 app.engine('hbs', handlebars({
@@ -18,7 +23,14 @@ app.engine('hbs', handlebars({
 app.set('view engine', 'hbs') 
 app.set('views', path.join(__dirname, 'resource/views'))
 
-app.get('/home', (req, res) => res.render('home'))
+app.get('/', (req, res) => res.render('home'))
 app.get('/news', (req, res) => res.render('news'))
+app.get('/search', (req, res) => res.render('search'))
 
-app.listen(port, () => console.log('App listening at http://localhost:', port))
+app.post('/search', (req, res) => {
+    console.log(req.body.q)
+
+    res.send('')
+})
+
+app.listen(port, () => console.log('App listening at http://localhost:3000'))
