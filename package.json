@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js",
-    "watch" : "node-sass --watch src/resource/scss/app.scss src/public/csss/app.css",
+    "watch": "node-sass --watch src/resource/scss/app.scss src/public/csss/app.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,7 +24,8 @@
   "homepage": "https://github.com/quoccuongpresent244/NodeJs-study#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.4"
+    "express-handlebars": "^5.3.4",
+    "mongoose": "^6.0.11"
   },
   "devDependencies": {
     "morgan": "^1.10.0",

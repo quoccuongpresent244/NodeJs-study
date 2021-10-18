@@ -6,7 +6,12 @@ const route = require('./routes')
 const app = express()
 const port = 3000
 
+const db = require('./config/db')
+
 app.use(express.static(path.join(__dirname, './public')))
+
+//connect db
+db.connect();
 
 //urlencoded
 app.use(express.urlencoded({
@@ -22,7 +27,7 @@ app.engine('hbs', handlebars({
     extname: ".hbs"
 }))
 app.set('view engine', 'hbs') 
-app.set('views', path.join(__dirname, 'resource/views'))
+app.set('views', path.join(__dirname, 'resource', 'views'))
 
 //Route init
 route(app);
