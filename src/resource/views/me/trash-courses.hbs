@@ -1,7 +1,7 @@
 <div class="mt-4">
   <div>
     <h3>Khóa học của tôi</h3>
-    <a href="/me/trash/courses">Thùng rác</a>
+    <a href="/me/stored/courses">Danh sách khóa học</a>
   </div>
     
 
@@ -24,14 +24,14 @@
                 <td>{{this.slug}}</td>
                 <td>{{this.videoId}}</td>
                 <td>
-                    <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
-                    <a href="" class="btn btn-link" data-bs-toggle="modal" data-bs-id="{{this._id}}" data-bs-target="#delete-course">Xóa</a>
+                    <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Khôi phục</a>
+                    <a href="" class="btn btn-link" data-bs-toggle="modal" data-bs-id="{{this._id}}" data-bs-target="#delete-course">Xóa vĩnh viễn</a>
                 </td>
             </tr>
             {{else}}
             <tr>
               <td colspan="5" class="text-center">
-                Bạn chưa có khóa học nào. <a href="/courses/create">Đăng khóa học</a>
+                Danh sách trống <a href="/courses/create">Đăng khóa học</a>
               </td>
             </tr>
             {{/each}}
@@ -58,23 +58,37 @@
 </div>
 
 <form name="delete-form" method="POST"></form>
+<form name="restore-form" method="POST"></form>
+
+<script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    var deleteModal = document.getElementById('delete-course')
-    var btnDeleteCourse = document.getElementById('btn-delete-course')
-    var deleteForm = document.forms["delete-form"]
-    var courseID;
+  document.addEventListener('DOMContentLoaded', function(){
+      var deleteModal = document.getElementById('delete-course')
+      var btnDeleteCourse = document.getElementById('btn-delete-course')
+      var deleteForm = document.forms["delete-form"]
+      var restoreForm = document.forms["restore-form"]
+      var courseID;
+      var btnRestore = $('.btn-restore')
 
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget
-        courseID = button.getAttribute('data-bs-id')
-        console.log(courseID)
-    })
+      deleteModal.addEventListener('show.bs.modal', function (event) {
+          var button = event.relatedTarget
+          courseID = button.getAttribute('data-bs-id')
+          console.log(courseID)
+      })
 
-    
-    btnDeleteCourse.onclick = function () {
-        deleteForm.action = '/courses/' + courseID + '?_method=DELETE'
-        deleteForm.submit()
-    }
+      
+      btnDeleteCourse.onclick = function () {
+          deleteForm.action = '/courses/' + courseID + '/force?_method=DELETE'
+          deleteForm.submit()
+      }
+
+      btnRestore.click(function (e) {
+        e.preventDefault();
+        var courseId = $(this).data('id')
+        restoreForm.action = '/courses/' + courseId + '/restore?_method=PATCH'
+        restoreForm.submit()
+      })
+  })
 
 </script>
